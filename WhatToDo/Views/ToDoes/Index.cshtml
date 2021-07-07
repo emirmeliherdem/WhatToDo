@@ -14,8 +14,9 @@
         {
             InsertionMode = InsertionMode.Replace,
             HttpMethod = "POST",
-            UpdateTargetId = "tableDiv"
-        }))
+            UpdateTargetId = "tableDiv",
+            OnSuccess = "OnSuccess"
+        }, new { autocomplete = "off" }))
     {
         <div class="form-group">
             @Html.AntiForgeryToken()
@@ -30,5 +31,6 @@
 @section Scripts {
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/Custom_Scripts/BuildTable.js"></script>
+    <script>function OnSuccess() { this.reset(); }</script>
     @Scripts.Render("~/bundles/jqueryval")
 }
