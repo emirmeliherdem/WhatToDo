@@ -4,6 +4,8 @@
     ViewBag.Title = "Index";
 }
 
+<h2>My To Do List</h2>
+
 <div id="tableDiv"></div>
 
 <div id="todoCreateForm">
@@ -18,7 +20,7 @@
         <div class="form-group">
             @Html.AntiForgeryToken()
             <div>
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter a new to do item" } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>

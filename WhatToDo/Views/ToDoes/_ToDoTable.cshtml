@@ -28,7 +28,7 @@
                 @Html.CheckBoxFor(modelItem => item.IsDone, new { id = item.Id, @class = "ActiveCheck"})
             </td>
             <td>
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @Html.ActionLink("X", "Delete", new { id = item.Id })
             </td>
         </tr>
     }
