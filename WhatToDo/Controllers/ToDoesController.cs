@@ -82,7 +82,7 @@ namespace WhatToDo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AJAXCreate([Bind(Include = "Id,Description")] ToDo toDo)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && toDo.Description != null)
             {
                 string currentUserId = User.Identity.GetUserId();
                 // find the user with the given user id
@@ -190,6 +190,28 @@ namespace WhatToDo.Controllers
             }
 
             db.ToDos.Remove(toDo);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult ClearAll()
+        {
+            IEnumerable<ToDo> toDoes = GetToDoes();
+            foreach (var toDo in toDoes)
+			{
+				db.ToDos.Remove(toDo);
+			}
+			db.SaveChanges();
+			return RedirectToAction("Index");
+        }
+
+        public ActionResult ClearDone()
+        {
+            IEnumerable<ToDo> doneToDoes = GetToDoes().Where(x => x.IsDone == true); ;
+            foreach (var toDo in doneToDoes)
+            {
+                db.ToDos.Remove(toDo);
+            }
             db.SaveChanges();
             return RedirectToAction("Index");
         }

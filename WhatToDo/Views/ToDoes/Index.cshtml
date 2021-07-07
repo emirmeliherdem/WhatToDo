@@ -28,6 +28,16 @@
     }
 </div>
 
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-actions no-color">
+    @Html.ActionLink("Clear Done", "ClearDone") |
+    @Html.ActionLink("Clear All", "ClearAll")
+</div>
+}
+
 @section Scripts {
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/Custom_Scripts/BuildTable.js"></script>
