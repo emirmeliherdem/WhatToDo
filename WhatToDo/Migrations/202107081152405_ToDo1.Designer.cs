@@ -6,14 +6,14 @@ namespace WhatToDo.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
+    [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
     public sealed partial class ToDo1 : IMigrationMetadata
     {
         private readonly ResourceManager Resources = new ResourceManager(typeof(ToDo1));
         
         string IMigrationMetadata.Id
         {
-            get { return "202107051555578_ToDo1"; }
+            get { return "202107081152405_ToDo1"; }
         }
         
         string IMigrationMetadata.Source
