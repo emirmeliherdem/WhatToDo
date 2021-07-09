@@ -1,0 +1,23 @@
+﻿@model IEnumerable<WhatToDo.Models.Habit>
+
+<div>
+    @foreach (var item in Model)
+    {
+        <div class="card">
+            <div class="card-body">
+                <h4>@Html.DisplayFor(modelItem => item.Description)</h4>
+                <p>@Html.DisplayFor(modelItem => item.CompDayCount) / @Html.DisplayFor(modelItem => item.AimedDayCount)</p>
+                <p>@Html.DisplayFor(modelItem => item.MissedDayCount)</p>
+
+                @Html.CheckBoxFor(modelItem => item.IsDone, new { id = item.Id, @class = "ActiveCheck" })
+                @Html.ActionLink("X", "Delete", new { id = item.Id })
+
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: @(Html.AttributeEncode(item.getPercentage()))%;">
+                        <span class="sr-only">10% Complete</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

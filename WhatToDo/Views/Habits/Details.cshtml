@@ -1,0 +1,58 @@
+﻿@model WhatToDo.Models.Habit
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Habit</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsDone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsDone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AimedDayCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AimedDayCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MissedDayCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MissedDayCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompDayCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompDayCount)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

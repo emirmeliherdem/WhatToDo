@@ -1,0 +1,64 @@
+﻿@model WhatToDo.Models.Habit
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Habit</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsDone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsDone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AimedDayCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AimedDayCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MissedDayCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MissedDayCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompDayCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompDayCount)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

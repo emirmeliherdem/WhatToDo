@@ -5,11 +5,13 @@ using System.Web;
 
 namespace WhatToDo.Models
 {
-    public class Habit
+    public class Hobby
     {
         public int Id { get; set; }
 
-        public string Description { get; set; }
+        public string Title { get; set; }
+
+        public string Details { get; set; }
 
         public bool IsDone { get; set; }
 
@@ -20,13 +22,5 @@ namespace WhatToDo.Models
         public int CompDayCount { get; set; }
 
         public virtual ApplicationUser User { get; set; }
-
-
-        public int getPercentage()
-        {
-            if (AimedDayCount <= 0)
-                return 0;
-            return (int) Math.Round(100f * ((float) CompDayCount / (float) AimedDayCount));
-        }
     }
 }

@@ -1,20 +1,20 @@
-﻿@model WhatToDo.Models.ToDo
+﻿@model WhatToDo.Models.Habit
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>My To Do List</h2>
+<h2>My Habit List</h2>
 
-<div id="toDoTableDiv"></div>
+<div id="habitTableDiv"></div>
 
 <div id="todoCreateForm">
-    @using (Ajax.BeginForm("AJAXCreate", "ToDoes",
+    @using (Ajax.BeginForm("AJAXCreate", "Habits",
         new AjaxOptions
         {
             InsertionMode = InsertionMode.Replace,
             HttpMethod = "POST",
-            UpdateTargetId = "tableDiv",
+            UpdateTargetId = "habitTableDiv",
             OnSuccess = "OnSuccess"
         }, new { autocomplete = "off" }))
     {
@@ -32,15 +32,15 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="form-actions no-color">
-    @Html.ActionLink("Clear Done", "ClearDone") |
-    @Html.ActionLink("Clear All", "ClearAll")
-</div>
+    <div class="form-actions no-color">
+        @Html.ActionLink("Clear Done", "ClearDone") |
+        @Html.ActionLink("Clear All", "ClearAll")
+    </div>
 }
 
 @section Scripts {
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-    <script src="~/Custom_Scripts/BuildToDoTable.js"></script>
+    <script src="~/Custom_Scripts/BuildHabitTable.js"></script>
     <script>function OnSuccess() { this.reset(); }</script>
     @Scripts.Render("~/bundles/jqueryval")
 }
