@@ -13,7 +13,7 @@ namespace WhatToDo.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202107081152405_ToDo1"; }
+            get { return "202107081204443_ToDo1"; }
         }
         
         string IMigrationMetadata.Source

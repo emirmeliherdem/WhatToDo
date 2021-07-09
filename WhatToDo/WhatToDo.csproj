@@ -174,12 +174,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202107081152405_ToDo1.cs" />
-    <Compile Include="Migrations\202107081152405_ToDo1.Designer.cs">
-      <DependentUpon>202107081152405_ToDo1.cs</DependentUpon>
+    <Compile Include="Migrations\202107081204443_ToDo1.cs" />
+    <Compile Include="Migrations\202107081204443_ToDo1.Designer.cs">
+      <DependentUpon>202107081204443_ToDo1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202107090920173_Habit1.cs" />
+    <Compile Include="Migrations\202107090920173_Habit1.Designer.cs">
+      <DependentUpon>202107090920173_Habit1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Habit.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ToDo.cs" />
@@ -270,8 +275,11 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202107081152405_ToDo1.resx">
-      <DependentUpon>202107081152405_ToDo1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202107081204443_ToDo1.resx">
+      <DependentUpon>202107081204443_ToDo1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202107090920173_Habit1.resx">
+      <DependentUpon>202107090920173_Habit1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

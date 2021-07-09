@@ -27,6 +27,8 @@ namespace WhatToDo.Models
 
         public DbSet<ToDo> ToDos { get; set; }
 
+        public DbSet<Habit> Habits { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
