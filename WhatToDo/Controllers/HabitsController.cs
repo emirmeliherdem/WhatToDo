@@ -29,6 +29,31 @@ namespace WhatToDo.Controllers
             return db.Habits.ToList().Where(x => x.User == currentUser);
         }
 
+        // update the day counts of each habit
+        public static void UpdateHabits()
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+            IEnumerable<Habit> habits = db.Habits.ToList();
+            foreach (var habit in habits)
+            {
+                if (habit.CompDayCount <= habit.AimedDayCount)
+                {
+                    if (habit.IsDone)
+                    {
+                        habit.CompDayCount++;
+                        habit.IsDone = false;
+                    }
+                    else
+                    {
+                        habit.MissedDayCount++;
+                    }
+                    db.Entry(habit).State = EntityState.Modified;
+                }
+            }
+            db.SaveChanges();
+        }
+
+
         public ActionResult BuildHabitTable()
         {
             return PartialView("_HabitTable", GetHabits());
