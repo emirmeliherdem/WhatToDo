@@ -176,8 +176,27 @@ namespace WhatToDo.Controllers
         //    return RedirectToAction("Index");
         //}
 
+        //// POST: ToDoes/Delete/5
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    ToDo toDo = db.ToDos.Find(id);
+        //    if (toDo == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+
+        //    db.ToDos.Remove(toDo);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
+
+        [HttpPost]
         // POST: ToDoes/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult AJAXDelete(int? id)
         {
             if (id == null)
             {
@@ -191,7 +210,7 @@ namespace WhatToDo.Controllers
 
             db.ToDos.Remove(toDo);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return PartialView("_ToDoTable", GetToDoes());
         }
 
         public ActionResult ClearAll()

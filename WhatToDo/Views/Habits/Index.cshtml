@@ -8,7 +8,7 @@
 
 <div id="habitTableDiv"></div>
 
-<div id="todoCreateForm">
+<div id="habitCreateForm">
     @using (Ajax.BeginForm("AJAXCreate", "Habits",
         new AjaxOptions
         {
@@ -18,15 +18,33 @@
             OnSuccess = "OnSuccess"
         }, new { autocomplete = "off" }))
     {
-        <div class="form-group">
-            @Html.AntiForgeryToken()
-            <div>
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter a new to do item" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        <hr />
+        @Html.AntiForgeryToken()
+        <form class="form-horizontal">
+            <div class="row">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-horizontal form-group">
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter a new habit" } })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+
+                    @Html.LabelFor(model => model.AimedDayCount, htmlAttributes: new { @class = "control-label col-sm-2" })
+                    <div class="col-sm-3">
+                        @Html.EditorFor(model => model.AimedDayCount, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.AimedDayCount, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-sm-3">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
             </div>
-        </div>
+        </form>
     }
 </div>
+
+<hr />
 
 @using (Html.BeginForm())
 {

@@ -25,11 +25,23 @@
                 }
             </td>
             <td>
-                @Html.CheckBoxFor(modelItem => item.IsDone, new { id = item.Id, @class = "ActiveCheck"})
+                @Html.CheckBoxFor(modelItem => item.IsDone, new { id = item.Id, @class = "ActiveCheck" })
             </td>
             <td>
-                @Html.ActionLink("X", "Delete", new { id = item.Id })
-            </td>
+                @using (Ajax.BeginForm("AJAXDelete", "ToDoes",
+                    new AjaxOptions
+                    {
+                        InsertionMode = InsertionMode.Replace,
+                        HttpMethod = "POST",
+                        UpdateTargetId = "toDoTableDiv",
+                    }))
+                {
+                    <button id='deleteRecord' data-model-id="@item.Id"></button>
+                    <input type="submit" value="AJAXDelete" class="btn btn-default" />
+                    <a class="delete" data-model-id="@item.Id" onclick="Delete(this)">.........</a>
+                }
+                @Html.ActionLink("X", "AJAXDelete", new { id = item.Id, @class = "ActiveDelete" })
+                </td>
         </tr>
     }
 

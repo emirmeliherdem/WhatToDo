@@ -207,6 +207,8 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Custom_Scripts\AddDeleteListener.js" />
+    <Content Include="Custom_Scripts\AddCheckBoxListener2.js" />
     <Content Include="Custom_Scripts\AddCheckBoxListener.js" />
     <Content Include="Custom_Scripts\BuildHabitTable.js" />
     <Content Include="Custom_Scripts\BuildToDoTable.js" />

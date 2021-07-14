@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -13,6 +14,8 @@ namespace WhatToDo.Models
 
         public bool IsDone { get; set; }
 
+        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter a positive value.")]
         public int AimedDayCount { get; set; }
 
         public int MissedDayCount { get; set; }

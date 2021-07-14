@@ -7,9 +7,9 @@
             <div class="card-body">
                 <h4>@Html.DisplayFor(modelItem => item.Description)</h4>
                 <p>@Html.DisplayFor(modelItem => item.CompDayCount) / @Html.DisplayFor(modelItem => item.AimedDayCount)</p>
-                <p>@Html.DisplayFor(modelItem => item.MissedDayCount)</p>
+                <p>Misses: @Html.DisplayFor(modelItem => item.MissedDayCount)</p>
 
-                @Html.CheckBoxFor(modelItem => item.IsDone, new { id = item.Id, @class = "ActiveCheck" })
+                @Html.CheckBoxFor(modelItem => item.IsDone, new { id = item.Id, @class = "ActiveCheck2" })
                 @Html.ActionLink("X", "Delete", new { id = item.Id })
 
                 <div class="progress">
@@ -21,3 +21,5 @@
         </div>
     }
 </div>
+
+<script src="~/Custom_Scripts/AddCheckBoxListener2.js"></script>

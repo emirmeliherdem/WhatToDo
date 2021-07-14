@@ -13,7 +13,6 @@ namespace WhatToDo
             ConfigureAuth(app);
             GlobalConfiguration.Configuration.UseSqlServerStorage("DefaultConnection");
             app.UseHangfireDashboard();
-            //BackgroundJob.Enqueue(() => Console.WriteLine("Hello, world!"));
             RecurringJob.AddOrUpdate("easyjob", () => Controllers.HabitsController.UpdateHabits(), Cron.Minutely);
             app.UseHangfireServer();
         }

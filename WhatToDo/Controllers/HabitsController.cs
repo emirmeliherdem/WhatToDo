@@ -36,7 +36,7 @@ namespace WhatToDo.Controllers
             IEnumerable<Habit> habits = db.Habits.ToList();
             foreach (var habit in habits)
             {
-                if (habit.CompDayCount <= habit.AimedDayCount)
+                if (habit.CompDayCount < habit.AimedDayCount)
                 {
                     if (habit.IsDone)
                     {
@@ -61,7 +61,7 @@ namespace WhatToDo.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AJAXCreate([Bind(Include = "Id,Description")] Habit habit)
+        public ActionResult AJAXCreate([Bind(Include = "Id,Description,AimedDayCount")] Habit habit)
         {
             if (ModelState.IsValid && habit.Description != null)
             {
@@ -71,7 +71,6 @@ namespace WhatToDo.Controllers
                 // match current to do with the user
                 habit.User = currentUser;
                 habit.IsDone = false;
-                habit.AimedDayCount = 0;
                 habit.MissedDayCount = 0;
                 habit.CompDayCount = 0;
                 db.Habits.Add(habit);

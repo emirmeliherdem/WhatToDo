@@ -1,18 +1,18 @@
 ﻿$(document).ready(function () {
-    $('.ActiveCheck').change(function () {
+    $('.ActiveCheck2').change(function () {
         var self = $(this);
         var id = self.attr('id');
         var value = self.prop('checked');
 
         $.ajax({
-            url: '/ToDoes/AJAXEdit',
+            url: '/Habits/AJAXEdit',
             data: {
                 id: id,
                 value: value
             },
             type: 'POST',
             success: function (result) {
-                $('#toDoTableDiv').html(result);
+                $('#habitTableDiv').html(result);
             }
         });
     });
