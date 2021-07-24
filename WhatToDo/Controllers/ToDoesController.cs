@@ -195,7 +195,7 @@ namespace WhatToDo.Controllers
         //}
 
         [HttpPost]
-        // POST: ToDoes/Delete/5
+        // POST: ToDoes/AJAXDelete/5
         public ActionResult AJAXDelete(int? id)
         {
             if (id == null)

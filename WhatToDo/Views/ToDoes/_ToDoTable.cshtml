@@ -28,23 +28,24 @@
                 @Html.CheckBoxFor(modelItem => item.IsDone, new { id = item.Id, @class = "ActiveCheck" })
             </td>
             <td>
-                @using (Ajax.BeginForm("AJAXDelete", "ToDoes",
+                @Ajax.ActionLink(" ", "AJAXDelete", new { id = item.Id },
                     new AjaxOptions
                     {
-                        InsertionMode = InsertionMode.Replace,
                         HttpMethod = "POST",
-                        UpdateTargetId = "toDoTableDiv",
-                    }))
-                {
-                    <button id='deleteRecord' data-model-id="@item.Id"></button>
-                    <input type="submit" value="AJAXDelete" class="btn btn-default" />
-                    <a class="delete" data-model-id="@item.Id" onclick="Delete(this)">.........</a>
-                }
-                @Html.ActionLink("X", "AJAXDelete", new { id = item.Id, @class = "ActiveDelete" })
-                </td>
+                        OnSuccess = "RemoveRow"
+                    },
+                    new { @class = "btn btn-default" })
+            </td>
         </tr>
     }
 
 </table>
 
 <script src="~/Custom_Scripts/AddCheckBoxListener.js"></script>
+<script src="~/Custom_Scripts/AddDeleteListener.js"></script>
+<script type="text/javascript">
+    function RemoveRow() {
+        var $tr = $(this).closest('tr');
+        $tr.remove();
+    }
+</script>
