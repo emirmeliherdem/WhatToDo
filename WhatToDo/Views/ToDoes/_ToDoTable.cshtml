@@ -28,7 +28,7 @@
                 @Html.CheckBoxFor(modelItem => item.IsDone, new { id = item.Id, @class = "ActiveCheck" })
             </td>
             <td>
-                @Ajax.ActionLink(" ", "AJAXDelete", new { id = item.Id },
+                @Ajax.ActionLink("-", "AJAXDelete", new { id = item.Id },
                     new AjaxOptions
                     {
                         HttpMethod = "POST",
@@ -42,10 +42,13 @@
 </table>
 
 <script src="~/Custom_Scripts/AddCheckBoxListener.js"></script>
-<script src="~/Custom_Scripts/AddDeleteListener.js"></script>
 <script type="text/javascript">
     function RemoveRow() {
         var $tr = $(this).closest('tr');
         $tr.remove();
     }
 </script>
+
+@section scripts{
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+}

@@ -29,6 +29,8 @@ namespace WhatToDo.Models
 
         public DbSet<Habit> Habits { get; set; }
 
+        public DbSet<RecommendedHabit> RecommendedHabits { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

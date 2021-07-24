@@ -10,6 +10,9 @@ namespace WhatToDo.Models
     {
         public int Id { get; set; }
 
+        // for recommended habits
+        public int RecId { get; set; }
+
         [Required]
         public string Description { get; set; }
 
@@ -20,7 +23,7 @@ namespace WhatToDo.Models
         public int AimedDayCount { get; set; }
 
         public int MissedDayCount { get; set; }
-
+            
         public int CompDayCount { get; set; }
 
         public virtual ApplicationUser User { get; set; }

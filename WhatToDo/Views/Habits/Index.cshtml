@@ -56,9 +56,18 @@
     </div>
 }
 
+<div>
+    <hr />
+    <h4>Recommended Habits</h4>
+    <hr />
+    <div id="recHabitTableDiv"></div>
+    <hr />
+</div>
+
 @section Scripts {
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/Custom_Scripts/BuildHabitTable.js"></script>
+    <script src="~/Custom_Scripts/BuildRecHabitTable.js"></script>
     <script>function OnSuccess() { this.reset(); }</script>
     @Scripts.Render("~/bundles/jqueryval")
 }

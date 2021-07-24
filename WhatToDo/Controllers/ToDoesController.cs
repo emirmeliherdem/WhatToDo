@@ -96,6 +96,8 @@ namespace WhatToDo.Controllers
                 ModelState.Clear();
             }
 
+            System.Diagnostics.Debug.WriteLine("******To Do Created! Id: " + toDo.Id + " Desc: " + toDo.Description);
+
             return PartialView("_ToDoTable", GetToDoes());
         }
 

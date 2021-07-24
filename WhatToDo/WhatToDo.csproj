@@ -180,6 +180,7 @@
     <Compile Include="Controllers\HabitsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\RecommendedHabitsController.cs" />
     <Compile Include="Controllers\ToDoesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -192,12 +193,24 @@
     <Compile Include="Migrations\202107090920173_Habit1.Designer.cs">
       <DependentUpon>202107090920173_Habit1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202107241109078_ToDoDescRequired.cs" />
+    <Compile Include="Migrations\202107241109078_ToDoDescRequired.Designer.cs">
+      <DependentUpon>202107241109078_ToDoDescRequired.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202107241227316_ReqFix.cs" />
+    <Compile Include="Migrations\202107241227316_ReqFix.Designer.cs">
+      <DependentUpon>202107241227316_ReqFix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202107241233034_ToDoDescReqFix].cs" />
+    <Compile Include="Migrations\202107241233034_ToDoDescReqFix].Designer.cs">
+      <DependentUpon>202107241233034_ToDoDescReqFix].cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Habit.cs" />
-    <Compile Include="Models\Hobby.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\RecommendedHabit.cs" />
     <Compile Include="Models\ToDo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -207,9 +220,9 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Custom_Scripts\AddDeleteListener.js" />
     <Content Include="Custom_Scripts\AddCheckBoxListener2.js" />
     <Content Include="Custom_Scripts\AddCheckBoxListener.js" />
+    <Content Include="Custom_Scripts\BuildRecHabitTable.js" />
     <Content Include="Custom_Scripts\BuildHabitTable.js" />
     <Content Include="Custom_Scripts\BuildToDoTable.js" />
     <Content Include="favicon.ico" />
@@ -285,6 +298,12 @@
     <Content Include="Views\Habits\Edit.cshtml" />
     <Content Include="Views\Habits\Index.cshtml" />
     <Content Include="Views\Habits\_HabitTable.cshtml" />
+    <Content Include="Views\RecommendedHabits\Create.cshtml" />
+    <Content Include="Views\RecommendedHabits\Delete.cshtml" />
+    <Content Include="Views\RecommendedHabits\Details.cshtml" />
+    <Content Include="Views\RecommendedHabits\Edit.cshtml" />
+    <Content Include="Views\RecommendedHabits\Index.cshtml" />
+    <Content Include="Views\RecommendedHabits\_RecHabitTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -300,6 +319,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202107090920173_Habit1.resx">
       <DependentUpon>202107090920173_Habit1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202107241109078_ToDoDescRequired.resx">
+      <DependentUpon>202107241109078_ToDoDescRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202107241227316_ReqFix.resx">
+      <DependentUpon>202107241227316_ReqFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202107241233034_ToDoDescReqFix].resx">
+      <DependentUpon>202107241233034_ToDoDescReqFix].cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

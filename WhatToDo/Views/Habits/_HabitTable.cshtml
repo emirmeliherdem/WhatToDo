@@ -3,23 +3,45 @@
 <div>
     @foreach (var item in Model)
     {
-        <div class="card">
-            <div class="card-body">
-                <h4>@Html.DisplayFor(modelItem => item.Description)</h4>
-                <p>@Html.DisplayFor(modelItem => item.CompDayCount) / @Html.DisplayFor(modelItem => item.AimedDayCount)</p>
-                <p>Misses: @Html.DisplayFor(modelItem => item.MissedDayCount)</p>
+    <div class="card">
+        <hr />
+        <div class="card-body">
+            <h4>@Html.DisplayFor(modelItem => item.Description)</h4>
+            <p>@Html.DisplayFor(modelItem => item.CompDayCount) / @Html.DisplayFor(modelItem => item.AimedDayCount)</p>
+            <p>Misses: @Html.DisplayFor(modelItem => item.MissedDayCount)</p>
 
-                @Html.CheckBoxFor(modelItem => item.IsDone, new { id = item.Id, @class = "ActiveCheck2" })
-                @Html.ActionLink("X", "Delete", new { id = item.Id })
+            @Html.CheckBoxFor(modelItem => item.IsDone, new { id = item.Id, @class = "ActiveCheck2" })
+            @Ajax.ActionLink("-", "AJAXDelete", new { id = item.Id },
+                new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    OnSuccess = "RemoveRow"
+                },
+                new { @class = "btn btn-default" })
 
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: @(Html.AttributeEncode(item.getPercentage()))%;">
-                        <span class="sr-only">10% Complete</span>
-                    </div>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: @(Html.AttributeEncode(item.getPercentage()))%;">
+                    <span class="sr-only">10% Complete</span>
                 </div>
             </div>
+
+            @if (item.RecId < 0)
+            {
+                @Html.ActionLink("Rec", "AJAXRecommend", new { id = item.Id })
+            }
         </div>
+    </div>
     }
 </div>
 
 <script src="~/Custom_Scripts/AddCheckBoxListener2.js"></script>
+<script type="text/javascript">
+    function RemoveRow() {
+        var $tr = $(this).closest('.card');
+        $tr.remove();
+    }
+</script>
+
+@section scripts{
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+}

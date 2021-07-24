@@ -6,15 +6,12 @@ using System.Web;
 
 namespace WhatToDo.Models
 {
-    public class ToDo
+    public class RecommendedHabit
     {
         public int Id { get; set; }
 
-        [Required]
         public string Description { get; set; }
 
-        public bool IsDone { get; set; }
-
-        public virtual ApplicationUser User { get; set; }
+        public int UserCount { get; set; }
     }
 }

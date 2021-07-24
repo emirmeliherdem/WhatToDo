@@ -70,6 +70,7 @@ namespace WhatToDo.Controllers
                 ApplicationUser currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
                 // match current to do with the user
                 habit.User = currentUser;
+                habit.RecId = -1;
                 habit.IsDone = false;
                 habit.MissedDayCount = 0;
                 habit.CompDayCount = 0;
@@ -100,6 +101,46 @@ namespace WhatToDo.Controllers
             db.Entry(habit).State = EntityState.Modified;
             db.SaveChanges();
             return PartialView("_HabitTable", GetHabits());
+        }
+
+        [HttpPost]
+        public ActionResult AJAXDelete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Habit habit = db.Habits.Find(id);
+            if (habit == null)
+            {
+                return HttpNotFound();
+            }
+
+            db.Habits.Remove(habit);
+            db.SaveChanges();
+            return PartialView("_HabitTable", GetHabits());
+        }
+
+        public ActionResult AJAXRecommend(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Habit habit = db.Habits.Find(id);
+            if (habit == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (habit.RecId < 0) // not previously recommended
+            {
+                habit.RecId = habit.Id;
+                db.Entry(habit).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("AJAXCreate", "RecommendedHabits", habit);
+            }
+            return RedirectToAction("Index");
         }
 
         //// GET: Habits/Details/5
