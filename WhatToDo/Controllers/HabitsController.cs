@@ -53,6 +53,36 @@ namespace WhatToDo.Controllers
             db.SaveChanges();
         }
 
+        public ActionResult FollowRecomendation(RecommendedHabit recHabit)
+        {
+            foreach (var habit in GetHabits())
+            {
+                if (habit.RecId == recHabit.Id)
+                {
+                    TempData["ErrorMessage"] = "Already following the habit.";
+                    return RedirectToAction("Index");
+                }
+            }
+
+            // else
+            // find the user with the given user id
+            string currentUserId = User.Identity.GetUserId();
+            ApplicationUser currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
+
+            // create & add new habit according to the recommended habit
+            Habit newHabit = new Habit();
+            newHabit.User = currentUser;
+            newHabit.RecId = recHabit.Id;
+            newHabit.Description = recHabit.Description;
+            newHabit.IsDone = false;
+            newHabit.AimedDayCount = recHabit.AimedDayCount;
+            newHabit.MissedDayCount = 0;
+            newHabit.CompDayCount = 0;
+            db.Habits.Add(newHabit);
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
 
         public ActionResult BuildHabitTable()
         {
@@ -68,7 +98,7 @@ namespace WhatToDo.Controllers
                 string currentUserId = User.Identity.GetUserId();
                 // find the user with the given user id
                 ApplicationUser currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
-                // match current to do with the user
+                // match current habit with the user
                 habit.User = currentUser;
                 habit.RecId = -1;
                 habit.IsDone = false;
@@ -121,7 +151,7 @@ namespace WhatToDo.Controllers
             return PartialView("_HabitTable", GetHabits());
         }
 
-        public ActionResult AJAXRecommend(int? id)
+        public ActionResult Recommend(int? id)
         {
             if (id == null)
             {
@@ -135,10 +165,9 @@ namespace WhatToDo.Controllers
 
             if (habit.RecId < 0) // not previously recommended
             {
-                habit.RecId = habit.Id;
                 db.Entry(habit).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("AJAXCreate", "RecommendedHabits", habit);
+                return RedirectToAction("Create", "RecommendedHabits", habit);
             }
             return RedirectToAction("Index");
         }

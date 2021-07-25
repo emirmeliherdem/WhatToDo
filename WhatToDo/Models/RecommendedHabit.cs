@@ -12,6 +12,8 @@ namespace WhatToDo.Models
 
         public string Description { get; set; }
 
+        public int AimedDayCount { get; set; }
+
         public int UserCount { get; set; }
     }
 }

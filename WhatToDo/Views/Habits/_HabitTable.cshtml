@@ -27,7 +27,10 @@
 
             @if (item.RecId < 0)
             {
-                @Html.ActionLink("Rec", "AJAXRecommend", new { id = item.Id })
+                @Html.ActionLink("Rec", "Recommend", new { id = item.Id })
+            }else
+            {
+                <p>Recommended</p>
             }
         </div>
     </div>

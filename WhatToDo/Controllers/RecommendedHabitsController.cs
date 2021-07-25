@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -30,105 +31,35 @@ namespace WhatToDo.Controllers
             return PartialView("_RecHabitTable", GetRecommendedHabits());
         }
 
-
-        // GET: RecommendedHabits/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            RecommendedHabit recommendedHabit = db.RecommendedHabits.Find(id);
-            if (recommendedHabit == null)
-            {
-                return HttpNotFound();
-            }
-            return View(recommendedHabit);
-        }
-
-        public ActionResult AJAXCreate(Habit habit)
+        public ActionResult Create(Habit habit)
         {
             // create recommended habit & add to database
             RecommendedHabit recHabit = new RecommendedHabit();
             recHabit.Description = habit.Description;
+            recHabit.AimedDayCount = habit.AimedDayCount;
             recHabit.UserCount = 0;
             db.RecommendedHabits.Add(recHabit);
+            db.SaveChanges();
+
+            habit.RecId = recHabit.Id;
+            db.Entry(habit).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index", "Habits");
         }
 
-        // POST: RecommendedHabits/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Description,UserCount")] RecommendedHabit recommendedHabit)
-        {
-            if (ModelState.IsValid)
-            {
-                db.RecommendedHabits.Add(recommendedHabit);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(recommendedHabit);
-        }
-
-        // GET: RecommendedHabits/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult FollowRecomendation(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RecommendedHabit recommendedHabit = db.RecommendedHabits.Find(id);
-            if (recommendedHabit == null)
+            RecommendedHabit recHabit = db.RecommendedHabits.Find(id);
+            if (recHabit == null)
             {
                 return HttpNotFound();
             }
-            return View(recommendedHabit);
-        }
 
-        // POST: RecommendedHabits/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Description,UserCount")] RecommendedHabit recommendedHabit)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(recommendedHabit).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(recommendedHabit);
-        }
-
-        // GET: RecommendedHabits/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            RecommendedHabit recommendedHabit = db.RecommendedHabits.Find(id);
-            if (recommendedHabit == null)
-            {
-                return HttpNotFound();
-            }
-            return View(recommendedHabit);
-        }
-
-        // POST: RecommendedHabits/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            RecommendedHabit recommendedHabit = db.RecommendedHabits.Find(id);
-            db.RecommendedHabits.Remove(recommendedHabit);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("FollowRecomendation", "Habits", recHabit);
         }
 
         protected override void Dispose(bool disposing)
