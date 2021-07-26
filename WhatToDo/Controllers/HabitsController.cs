@@ -36,7 +36,8 @@ namespace WhatToDo.Controllers
             IEnumerable<Habit> habits = db.Habits.ToList();
             foreach (var habit in habits)
             {
-                if (habit.CompDayCount < habit.AimedDayCount)
+                // update day counts if the habit is not already complete
+                if (!habit.isComplete())
                 {
                     if (habit.IsDone)
                     {
@@ -48,9 +49,51 @@ namespace WhatToDo.Controllers
                         habit.MissedDayCount++;
                     }
                     db.Entry(habit).State = EntityState.Modified;
+
+                    // remove habit if its miss percentage is over %100
+                    if (habit.getMissPercentage() >= 100)
+                    {
+                        db.Habits.Remove(habit);
+                    }
                 }
             }
             db.SaveChanges();
+
+            // update recommended habits' average miss percentages
+            IEnumerable<RecommendedHabit> recHabits = db.RecommendedHabits.ToList();
+            foreach (var recHabit in recHabits)
+            {
+                int recId = recHabit.Id;
+                int sum = 0;
+                int count = 0;
+                foreach (var habit in habits)
+                {
+                    if (habit.RecId == recId)
+                    {
+                        sum += habit.getMissPercentage();
+                        count++;
+                    }
+                }
+                // compute averaege miss percentage of the recommended habit
+                if (count == 0)
+                    recHabit.AvgMissPercentage = 0;
+                else
+                    recHabit.AvgMissPercentage = (int) Math.Round((float) sum / (float) count);
+                db.Entry(recHabit).State = EntityState.Modified;
+            }
+            db.SaveChanges();
+        }
+
+        // Returns the average miss percentage of the recommended habit specified by its recId
+        public static int GetAvgMissPercentage(int recId)
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+
+            // find recommended habit by id
+            RecommendedHabit recHabit = db.RecommendedHabits.FirstOrDefault(x => x.Id == recId);
+
+            return recHabit.AvgMissPercentage;
+
         }
 
         public ActionResult FollowRecomendation(RecommendedHabit recHabit)
@@ -65,7 +108,11 @@ namespace WhatToDo.Controllers
             }
 
             // else
-            // find the user with the given user id
+            // update user count of the recommended habit
+            recHabit.UserCount++;
+            db.Entry(recHabit).State = EntityState.Modified;
+
+            // find the user
             string currentUserId = User.Identity.GetUserId();
             ApplicationUser currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
 
@@ -169,6 +216,17 @@ namespace WhatToDo.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Create", "RecommendedHabits", habit);
             }
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult ClearAll()
+        {
+            IEnumerable<Habit> habits = GetHabits();
+            foreach (var habit in habits)
+            {
+                db.Habits.Remove(habit);
+            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

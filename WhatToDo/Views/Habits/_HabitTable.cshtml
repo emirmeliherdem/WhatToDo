@@ -9,6 +9,7 @@
             <h4>@Html.DisplayFor(modelItem => item.Description)</h4>
             <p>@Html.DisplayFor(modelItem => item.CompDayCount) / @Html.DisplayFor(modelItem => item.AimedDayCount)</p>
             <p>Misses: @Html.DisplayFor(modelItem => item.MissedDayCount)</p>
+            <p>Miss Percentage: @item.getMissPercentage()%</p>
 
             @Html.CheckBoxFor(modelItem => item.IsDone, new { id = item.Id, @class = "ActiveCheck2" })
             @Ajax.ActionLink("-", "AJAXDelete", new { id = item.Id },
@@ -27,10 +28,10 @@
 
             @if (item.RecId < 0)
             {
-                @Html.ActionLink("Rec", "Recommend", new { id = item.Id })
+                @Html.ActionLink("Recommend", "Recommend", new { id = item.Id })
             }else
             {
-                <p>Recommended</p>
+                <p>Recommended - Average Miss Percentage: @item.getAvgMissPercentage()%</p>
             }
         </div>
     </div>

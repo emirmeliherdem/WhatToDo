@@ -209,6 +209,10 @@
     <Compile Include="Migrations\202107251023123_RecHabitAimedDayCount.Designer.cs">
       <DependentUpon>202107251023123_RecHabitAimedDayCount.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202107261113519_RecHabitAvgMiss.cs" />
+    <Compile Include="Migrations\202107261113519_RecHabitAvgMiss.Designer.cs">
+      <DependentUpon>202107261113519_RecHabitAvgMiss.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Habit.cs" />
@@ -335,6 +339,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202107251023123_RecHabitAimedDayCount.resx">
       <DependentUpon>202107251023123_RecHabitAimedDayCount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202107261113519_RecHabitAvgMiss.resx">
+      <DependentUpon>202107261113519_RecHabitAvgMiss.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

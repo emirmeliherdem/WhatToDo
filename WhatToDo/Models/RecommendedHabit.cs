@@ -14,6 +14,8 @@ namespace WhatToDo.Models
 
         public int AimedDayCount { get; set; }
 
+        public int AvgMissPercentage { get; set; }
+
         public int UserCount { get; set; }
     }
 }

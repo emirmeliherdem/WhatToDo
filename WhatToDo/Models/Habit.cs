@@ -29,11 +29,38 @@ namespace WhatToDo.Models
         public virtual ApplicationUser User { get; set; }
 
 
+        // Returns the completion percentage of the habit
         public int getPercentage()
         {
             if (AimedDayCount <= 0)
                 return 0;
             return (int) Math.Round(100f * ((float) CompDayCount / (float) AimedDayCount));
+        }
+
+        // Returns the miss percentage of the habit in relation to completed days
+        public int getMissPercentage()
+        {
+            if (MissedDayCount <= 0 && CompDayCount <= 0)
+                return 0;
+            else if (CompDayCount <= 0)
+                return MissedDayCount * 100;
+
+            return (int) Math.Round(100f * ((float) MissedDayCount / (float) CompDayCount));
+        }
+
+        // Returns the average miss percentage of the habit compared to other users following the same habit
+        public int getAvgMissPercentage()
+        {
+            if (RecId < 0)
+                return -1;
+            else
+                return Controllers.HabitsController.GetAvgMissPercentage(RecId);
+        }
+
+        // Returns whether the aimed day count is reached or not
+        public bool isComplete()
+        {
+            return CompDayCount >= AimedDayCount;
         }
     }
 }

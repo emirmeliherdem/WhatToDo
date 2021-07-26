@@ -1,5 +1,19 @@
 ﻿@model IEnumerable<WhatToDo.Models.RecommendedHabit>
 
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AimedDayCount)
+        </th>
+        <th></th>
+    </tr>
+
     @foreach (var item in Model)
     {
         <tr>
@@ -13,7 +27,8 @@
                 @Html.DisplayFor(modelItem => item.AimedDayCount)
             </td>
             <td>
-                @Html.ActionLink("Add", "FollowRecomendation", new { id = item.Id })
+                @Html.ActionLink("Follow", "FollowRecomendation", new { id = item.Id })
             </td>
         </tr>
     }
+</table>

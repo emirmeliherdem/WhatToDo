@@ -23,7 +23,7 @@ namespace WhatToDo.Controllers
 
         private IEnumerable<RecommendedHabit> GetRecommendedHabits()
         {
-            return db.RecommendedHabits.ToList();
+            return db.RecommendedHabits.OrderByDescending(t => t.UserCount).ToList();
         }
 
         public ActionResult BuildRecHabitTable()
