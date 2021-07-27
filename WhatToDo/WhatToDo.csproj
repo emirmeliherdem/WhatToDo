@@ -182,6 +182,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RecommendedHabitsController.cs" />
     <Compile Include="Controllers\ToDoesController.cs" />
+    <Compile Include="Custom_Classes\SizedQueue.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -212,6 +213,10 @@
     <Compile Include="Migrations\202107261113519_RecHabitAvgMiss.cs" />
     <Compile Include="Migrations\202107261113519_RecHabitAvgMiss.Designer.cs">
       <DependentUpon>202107261113519_RecHabitAvgMiss.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202107271439217_HabitHistory.cs" />
+    <Compile Include="Migrations\202107271439217_HabitHistory.Designer.cs">
+      <DependentUpon>202107271439217_HabitHistory.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -342,6 +347,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202107261113519_RecHabitAvgMiss.resx">
       <DependentUpon>202107261113519_RecHabitAvgMiss.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202107271439217_HabitHistory.resx">
+      <DependentUpon>202107271439217_HabitHistory.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

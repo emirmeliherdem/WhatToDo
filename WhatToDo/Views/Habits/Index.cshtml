@@ -6,8 +6,6 @@
 
 <h2>My Habit List</h2>
 
-<p><strong>@TempData["ErrorMessage"]</strong></p>
-
 <div id="habitTableDiv"></div>
 
 <div id="habitCreateForm">
@@ -61,6 +59,15 @@
     <hr />
     <h4>Recommended Habits</h4>
     <hr />
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            @TempData["ErrorMessage"]
+        </div>
+    }
     <div id="recHabitTableDiv"></div>
     <hr />
 </div>

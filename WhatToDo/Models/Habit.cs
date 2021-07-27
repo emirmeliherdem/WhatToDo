@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using WhatToDo.Custom_Classes;
 
 namespace WhatToDo.Models
 {
     public class Habit
     {
+        private const int HISTORY_SIZE = 5;
+
         public int Id { get; set; }
 
         // for recommended habits
@@ -26,11 +29,14 @@ namespace WhatToDo.Models
             
         public int CompDayCount { get; set; }
 
+        // 0 = empty, 1 = miss, 2 = done
+        public string History { get; set; } = "";
+
         public virtual ApplicationUser User { get; set; }
 
 
         // Returns the completion percentage of the habit
-        public int getPercentage()
+        public int GetPercentage()
         {
             if (AimedDayCount <= 0)
                 return 0;
@@ -38,7 +44,7 @@ namespace WhatToDo.Models
         }
 
         // Returns the miss percentage of the habit in relation to completed days
-        public int getMissPercentage()
+        public int GetMissPercentage()
         {
             if (MissedDayCount <= 0 && CompDayCount <= 0)
                 return 0;
@@ -49,7 +55,7 @@ namespace WhatToDo.Models
         }
 
         // Returns the average miss percentage of the habit compared to other users following the same habit
-        public int getAvgMissPercentage()
+        public int GetAvgMissPercentage()
         {
             if (RecId < 0)
                 return -1;
@@ -58,9 +64,26 @@ namespace WhatToDo.Models
         }
 
         // Returns whether the aimed day count is reached or not
-        public bool isComplete()
+        public bool IsComplete()
         {
             return CompDayCount >= AimedDayCount;
+        }
+
+        public void Done()
+        {
+            CompDayCount++;
+            History += 2; // add 'done' (2) to habit history
+            if (History.Length > HISTORY_SIZE)
+                History = History.Substring(1);
+            IsDone = false;
+        }
+
+        public void Miss()
+        {
+            MissedDayCount++;
+            History += 1; // add 'miss' (1) to habit history
+            if (History.Length > HISTORY_SIZE)
+                History = History.Substring(1);
         }
     }
 }

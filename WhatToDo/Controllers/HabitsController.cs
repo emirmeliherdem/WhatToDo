@@ -37,21 +37,20 @@ namespace WhatToDo.Controllers
             foreach (var habit in habits)
             {
                 // update day counts if the habit is not already complete
-                if (!habit.isComplete())
+                if (!habit.IsComplete())
                 {
                     if (habit.IsDone)
                     {
-                        habit.CompDayCount++;
-                        habit.IsDone = false;
+                        habit.Done();
                     }
                     else
                     {
-                        habit.MissedDayCount++;
+                        habit.Miss();
                     }
                     db.Entry(habit).State = EntityState.Modified;
 
                     // remove habit if its miss percentage is over %100
-                    if (habit.getMissPercentage() >= 100)
+                    if (habit.GetMissPercentage() >= 100)
                     {
                         db.Habits.Remove(habit);
                     }
@@ -70,7 +69,7 @@ namespace WhatToDo.Controllers
                 {
                     if (habit.RecId == recId)
                     {
-                        sum += habit.getMissPercentage();
+                        sum += habit.GetMissPercentage();
                         count++;
                     }
                 }

@@ -3,38 +3,72 @@
 <div>
     @foreach (var item in Model)
     {
-    <div class="card">
-        <hr />
-        <div class="card-body">
-            <h4>@Html.DisplayFor(modelItem => item.Description)</h4>
-            <p>@Html.DisplayFor(modelItem => item.CompDayCount) / @Html.DisplayFor(modelItem => item.AimedDayCount)</p>
-            <p>Misses: @Html.DisplayFor(modelItem => item.MissedDayCount)</p>
-            <p>Miss Percentage: @item.getMissPercentage()%</p>
+        <div class="card">
+            <hr />
+            <div class="card-body">
+                <h4>@Html.DisplayFor(modelItem => item.Description)</h4>
+                <p>@Html.DisplayFor(modelItem => item.CompDayCount) / @Html.DisplayFor(modelItem => item.AimedDayCount)</p>
+                <p>Misses: @Html.DisplayFor(modelItem => item.MissedDayCount)</p>
+                <p>Miss Percentage: @item.GetMissPercentage()%</p>
 
-            @Html.CheckBoxFor(modelItem => item.IsDone, new { id = item.Id, @class = "ActiveCheck2" })
-            @Ajax.ActionLink("-", "AJAXDelete", new { id = item.Id },
-                new AjaxOptions
-                {
-                    HttpMethod = "POST",
-                    OnSuccess = "RemoveRow"
-                },
-                new { @class = "btn btn-default" })
-
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: @(Html.AttributeEncode(item.getPercentage()))%;">
-                    <span class="sr-only">10% Complete</span>
+                <div>
+                    @foreach (char status in item.History)
+                    {
+                        if (status == '2') // done
+                        {
+                            <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+                        }
+                        else if (status == '1') // missed
+                        {
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        }
+                        else
+                        {
+                            <span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
+                        }
+                    }
                 </div>
-            </div>
 
-            @if (item.RecId < 0)
-            {
-                @Html.ActionLink("Recommend", "Recommend", new { id = item.Id })
-            }else
-            {
-                <p>Recommended - Average Miss Percentage: @item.getAvgMissPercentage()%</p>
-            }
+                @Html.CheckBoxFor(modelItem => item.IsDone, new { id = item.Id, @class = "ActiveCheck2" })
+                @Ajax.ActionLink("-", "AJAXDelete", new { id = item.Id },
+                    new AjaxOptions
+                    {
+                        HttpMethod = "POST",
+                        OnSuccess = "RemoveRow"
+                    },
+                    new { @class = "btn btn-default" })
+
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: @(Html.AttributeEncode(item.GetPercentage()))%;">
+                        <span class="sr-only">10% Complete</span>
+                    </div>
+                </div>
+
+                @if (item.RecId < 0)
+                {
+                    @Html.ActionLink("Recommend", "Recommend", new { id = item.Id })
+                }
+                else
+                {
+                    int avgMissPercentage = item.GetAvgMissPercentage();
+                    int comparison = avgMissPercentage - item.GetMissPercentage();
+                    <p>Recommended - Average Miss Percentage: @(avgMissPercentage)%</p>
+                    if (comparison > 0)
+                    {
+                        <p>You are @(comparison)% ahead!</p>
+                    }
+                    else if (comparison < 0)
+                    {
+                        <p>You are @Math.Abs(comparison)% behind.</p>
+                    }
+                    else
+                    {
+                        <p>You are going on average.</p>
+                    }
+
+                }
+            </div>
         </div>
-    </div>
     }
 </div>
 
