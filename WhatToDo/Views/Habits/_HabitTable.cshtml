@@ -1,81 +1,110 @@
 ﻿@model IEnumerable<WhatToDo.Models.Habit>
 
-<div>
-    @foreach (var item in Model)
-    {
-        <div class="card">
-            <hr />
-            <div class="card-body">
-                <h4>@Html.DisplayFor(modelItem => item.Description)</h4>
-                <p>@Html.DisplayFor(modelItem => item.CompDayCount) / @Html.DisplayFor(modelItem => item.AimedDayCount)</p>
-                <p>Misses: @Html.DisplayFor(modelItem => item.MissedDayCount)</p>
-                <p>Miss Percentage: @item.GetMissPercentage()%</p>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<link href="~/Content/todo.css" rel="stylesheet">
+<link href="~/Content/bootstrap.min.css" rel="stylesheet">
+<link href="~/Content/habit-table.css" rel="stylesheet">
 
-                <div>
-                    @foreach (char status in item.History)
-                    {
-                        if (status == '2') // done
+<div class="container py-5">
+    <div class="row">
+
+        @foreach (var item in Model)
+        {
+            <div class="col-xl-3 col-lg-6 mb-4" id="card">
+                <div class="bg-white rounded-lg p-4 shadow">
+                    <h5 class="font-weight-bold text-center border-bottom pb-3 mb-4">@(item.Description)</h5>
+
+                    <!-- Progress bar -->
+                    <div class="progress mx-auto" data-value='@(Html.AttributeEncode(item.GetPercentage()))'>
+                        <span class="progress-left">
+                            <span class="progress-bar border-primary"></span>
+                        </span>
+                        <span class="progress-right">
+                            <span class="progress-bar border-primary"></span>
+                        </span>
+                        <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                            <div class="h2 font-weight-bold">@(Html.AttributeEncode(item.GetPercentage()))<sup class="small">%</sup></div>
+                        </div>
+                    </div>
+                    <div class="small text-center text-gray">(@(item.CompDayCount)/@(item.AimedDayCount))</div>
+                    <!-- END -->
+                    <!-- Info -->
+                    <div class="row text-center mt-4">
+                        <div class="col-6 border-right">
+                            <div class="h4 font-weight-bold mb-0">@(item.GetMissPercentage())%</div><span class="small text-gray">Miss Rate</span>
+                        </div>
+                        <div class="col-6">
+                            <div class="h4 font-weight-bold mb-0">@(item.MissedDayCount)</div><span class="small text-gray">Misses</span>
+                        </div>
+                    </div>
+                    <div class="mt-2 border-bottom"></div>
+
+                    <input checked=@item.IsDone class="ActiveCheck2 form-check-input me-3" id=@item.Id name="item.IsDone" type="checkbox" value="true">
+
+                    <!-- END -->
+                    <div>
+                        @foreach (char status in item.History)
                         {
-                            <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+                            if (status == '2') // done
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-calendar-check" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" /></svg>
+                            }
+                            else if (status == '1') // missed
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-calendar-x" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" /></svg>
+                            }
+                            else
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" /></svg>
+                            }
                         }
-                        else if (status == '1') // missed
+                    </div>
+
+
+                    <div class="card-footer">
+                        @if (item.RecId < 0)
                         {
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            @Html.ActionLink("Recommend", "Recommend", new { id = item.Id }, new { @class = "btn" })
                         }
                         else
                         {
-                            <span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
+                            int avgMissPercentage = item.GetAvgMissPercentage();
+                            int comparison = avgMissPercentage - item.GetMissPercentage();
+                            <p>Recommended - Average Miss Percentage: @(avgMissPercentage)%</p>
+                            if (comparison > 0)
+                            {
+                                <p>You are @(comparison)% ahead!</p>
+                            }
+                            else if (comparison < 0)
+                            {
+                                <p>You are @Math.Abs(comparison)% behind.</p>
+                            }
+                            else
+                            {
+                                <p>You are going on average.</p>
+                            }
+
                         }
-                    }
-                </div>
 
-                @Html.CheckBoxFor(modelItem => item.IsDone, new { id = item.Id, @class = "ActiveCheck2" })
-                @Ajax.ActionLink("-", "AJAXDelete", new { id = item.Id },
-                    new AjaxOptions
-                    {
-                        HttpMethod = "POST",
-                        OnSuccess = "RemoveRow"
-                    },
-                    new { @class = "btn btn-default" })
-
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: @(Html.AttributeEncode(item.GetPercentage()))%;">
-                        <span class="sr-only">10% Complete</span>
+                        @Ajax.ActionLink("-", "AJAXDelete", new { id = item.Id },
+    new AjaxOptions
+    {
+        HttpMethod = "POST",
+        OnSuccess = "RemoveRow"
+    },
+    new { @class = "btn btn-default" })
                     </div>
                 </div>
-
-                @if (item.RecId < 0)
-                {
-                    @Html.ActionLink("Recommend", "Recommend", new { id = item.Id })
-                }
-                else
-                {
-                    int avgMissPercentage = item.GetAvgMissPercentage();
-                    int comparison = avgMissPercentage - item.GetMissPercentage();
-                    <p>Recommended - Average Miss Percentage: @(avgMissPercentage)%</p>
-                    if (comparison > 0)
-                    {
-                        <p>You are @(comparison)% ahead!</p>
-                    }
-                    else if (comparison < 0)
-                    {
-                        <p>You are @Math.Abs(comparison)% behind.</p>
-                    }
-                    else
-                    {
-                        <p>You are going on average.</p>
-                    }
-
-                }
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>
 
 <script src="~/Custom_Scripts/AddCheckBoxListener2.js"></script>
+<script src="~/Custom_Scripts/CircularProgressBar.js"></script>
 <script type="text/javascript">
     function RemoveRow() {
-        var $tr = $(this).closest('.card');
+        var $tr = $(this).closest('#card');
         $tr.remove();
     }
 </script>

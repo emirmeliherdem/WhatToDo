@@ -4,11 +4,17 @@
     ViewBag.Title = "Index";
 }
 
-<h2>My Habit List</h2>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet">
+
+<div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
+    <div class="lh-1">
+        <h4 class="h6 mb-0 text-white lh-1">My Habit List</h4>
+    </div>
+</div>
 
 <div id="habitTableDiv"></div>
 
-<div id="habitCreateForm">
+<div id="habitCreateForm" class="my-3 p-3 bg-body rounded shadow-sm">
     @using (Ajax.BeginForm("AJAXCreate", "Habits",
         new AjaxOptions
         {
@@ -18,48 +24,38 @@
             OnSuccess = "OnSuccess"
         }, new { autocomplete = "off" }))
     {
-        <hr />
         @Html.AntiForgeryToken()
-        <form class="form-horizontal">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-horizontal form-group">
-                    <div class="col-sm-4">
-                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter a new habit" } })
-                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                    </div>
-
-                    @Html.LabelFor(model => model.AimedDayCount, htmlAttributes: new { @class = "control-label col-sm-2" })
-                    <div class="col-sm-3">
-                        @Html.EditorFor(model => model.AimedDayCount, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.AimedDayCount, "", new { @class = "text-danger" })
-                    </div>
-
-                    <div class="col-sm-3">
-                        <input type="submit" value="Create" class="btn btn-default" />
-                    </div>
-                </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row g-3">
+            <div class="col-sm-4">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter a new habit" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
-        </form>
+
+            <div class="col-sm-2">
+                @Html.EditorFor(model => model.AimedDayCount, new { htmlAttributes = new { @class = "form-control", @placeholder = "Aimed day count" } })
+                @Html.ValidationMessageFor(model => model.AimedDayCount, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-sm-2">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
     }
 </div>
 
-<hr />
+<small class="d-block text-end mt-3 border-top">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-actions no-color">
-        @Html.ActionLink("Clear All", "ClearAll")
-    </div>
-}
+        <div class="form-actions no-color">
+            @Html.ActionLink("Clear All", "ClearAll")
+        </div>
+    }
+</small>
 
 <div>
-    <hr />
-    <h4>Recommended Habits</h4>
-    <hr />
-
     @if (TempData["ErrorMessage"] != null)
     {
         <div class="alert alert-danger" role="alert">
@@ -69,7 +65,6 @@
         </div>
     }
     <div id="recHabitTableDiv"></div>
-    <hr />
 </div>
 
 @section Scripts {

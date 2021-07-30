@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>My To Do List</h2>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet">
 
 <div id="toDoTableDiv"></div>
 
@@ -18,7 +18,7 @@
             OnSuccess = "OnSuccess"
         }, new { autocomplete = "off" }))
     {
-        <div class="form-group">
+        <div class="form-group my-3 bg-body rounded shadow-sm">
             @Html.AntiForgeryToken()
             <div>
                 @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter a new to do item" } })
@@ -27,16 +27,6 @@
         </div>
     }
 </div>
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-<div class="form-actions no-color">
-    @Html.ActionLink("Clear Done", "ClearDone") |
-    @Html.ActionLink("Clear All", "ClearAll")
-</div>
-}
 
 @section Scripts {
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>

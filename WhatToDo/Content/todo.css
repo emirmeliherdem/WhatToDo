@@ -1,0 +1,6 @@
+﻿/* Style for to do items */
+.todo-done {
+    text-decoration: line-through;
+    font-style: italic;
+    color: darkgray;
+}

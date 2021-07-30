@@ -1,34 +1,42 @@
 ﻿@model IEnumerable<WhatToDo.Models.RecommendedHabit>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UserCount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AimedDayCount)
-        </th>
-        <th></th>
-    </tr>
+<link href="~/Content/todo.css" rel="stylesheet">
 
-    @foreach (var item in Model)
-    {
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h4 class="border-bottom pb-3 mb-0">Recommended Habits</h4>
+
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AimedDayCount)
-            </td>
-            <td>
-                @Html.ActionLink("Follow", "FollowRecomendation", new { id = item.Id })
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AimedDayCount)
+            </th>
+            <th></th>
         </tr>
-    }
-</table>
+
+        @foreach (var item in Model)
+        {
+            <tr class="text-muted pt-3 border-top">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AimedDayCount)
+                </td>
+                <td>
+                    @Html.ActionLink("Follow", "FollowRecomendation", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+
