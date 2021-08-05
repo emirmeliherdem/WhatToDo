@@ -3,7 +3,7 @@
 <link href="~/Content/todo.css" rel="stylesheet">
 
 <div class="my-3 p-3 bg-body rounded shadow-sm">
-    <h4 class="border-bottom pb-3 mb-0">Recommended Habits</h4>
+    <h5 class="border-bottom pb-3 mb-0">Recommended Habits</h5>
 
     <table class="table">
         <tr>
@@ -21,7 +21,7 @@
 
         @foreach (var item in Model)
         {
-            <tr class="text-muted pt-3 border-top">
+            <tr class="text-muted pt-3">
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>

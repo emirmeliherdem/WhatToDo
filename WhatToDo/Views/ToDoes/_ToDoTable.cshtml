@@ -3,11 +3,25 @@
 <link href="~/Content/todo.css" rel="stylesheet">
 
 <div class="my-3 p-3 bg-body rounded shadow-sm">
-    <h4 class="border-bottom pb-3 mb-0">My To-Do List</h4>
+    <div class="d-flex border-bottom mb-0">
+        <h4>My To-Do List</h4>
+
+        <div class="dropdown me-3 ms-lg-auto">
+            <button class="btn btn-lg dropdown-toggle p-0" type="button" id="dropdownToDoes" data-bs-toggle="dropdown" aria-expanded="false"></button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownToDoes">
+                <li>
+                    <a class="dropdown-item" href="/ToDoes/ClearDone">Clear Done</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="/ToDoes/ClearAll">Clear All</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 
     @foreach (var item in Model)
     {
-        <div class="d-flex text-muted pt-3 border-bottom">
+        <div class="d-flex text-muted py-2 align-items-center border-bottom">
             <input checked=@item.IsDone class="ActiveCheck form-check-input me-3" id=@item.Id name="item.IsDone" type="checkbox" value="true">
 
 
@@ -21,7 +35,7 @@
             }
 
             <a class="btn" data-ajax="true" data-ajax-method="POST" data-ajax-success="RemoveRow" href="/ToDoes/AJAXDelete/@item.Id">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi-x-circle" viewBox="0 0 16 16">
                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                 </svg>
@@ -29,19 +43,6 @@
 
         </div>
     }
-
-    <small class="d-block text-end mt-3">
-
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
-
-            <div class="form-actions no-color">
-                @Html.ActionLink("Clear Done", "ClearDone") |
-                @Html.ActionLink("Clear All", "ClearAll")
-            </div>
-        }
-    </small>
 </div>
 
 <script src="~/Custom_Scripts/AddCheckBoxListener.js"></script>
@@ -51,6 +52,7 @@
         $div.remove();
     }
 </script>
+<script type="text/javascript" src="~/Scripts/bootstrap.bundle.min.js"></script>
 
 @section scripts{
     @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")

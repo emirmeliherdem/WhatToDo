@@ -5,100 +5,157 @@
 <link href="~/Content/bootstrap.min.css" rel="stylesheet">
 <link href="~/Content/habit-table.css" rel="stylesheet">
 
-<div class="container py-5">
-    <div class="row">
+@if (Model.Any()) // habits list is not empty
+{
+    <div class="container pt-2">
+        <div class="row">
 
-        @foreach (var item in Model)
-        {
-            <div class="col-xl-3 col-lg-6 mb-4" id="card">
-                <div class="bg-white rounded-lg p-4 shadow">
-                    <h5 class="font-weight-bold text-center border-bottom pb-3 mb-4">@(item.Description)</h5>
+            @foreach (var item in Model)
+            {
+                var borderType = "border-";
+                if (item.IsDone)
+                {
+                    borderType += "success";
+                }
+                else if (item.InDanger())
+                {
+                    borderType += "danger";
+                }
+                else
+                {
+                    borderType = "";
+                }
 
-                    <!-- Progress bar -->
-                    <div class="progress mx-auto" data-value='@(Html.AttributeEncode(item.GetPercentage()))'>
-                        <span class="progress-left">
-                            <span class="progress-bar border-primary"></span>
-                        </span>
-                        <span class="progress-right">
-                            <span class="progress-bar border-primary"></span>
-                        </span>
-                        <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-                            <div class="h2 font-weight-bold">@(Html.AttributeEncode(item.GetPercentage()))<sup class="small">%</sup></div>
+                <div class="col-xl-3 col-lg-6 mb-4" id="card">
+                    <div class="card @(borderType) bg-white rounded-lg p-4 shadow">
+                        <div class="row text-center align-items-center border-bottom pb-3">
+
+                            <div class="col text-start">
+                                <input checked=@item.IsDone class="ActiveCheck2 form-check-input p-2" id=@item.Id name="item.IsDone" type="checkbox" value="true">
+                            </div>
+
+                            <div class="col-auto">
+                                <h5 class="font-weight-bold mb-0">@(item.Description)</h5>
+                            </div>
+
+                            <div class="col text-end">
+                                <div class="dropdown">
+                                    <button class="btn btn-lg dropdown-toggle p-0" type="button" id="dropdownHabitCard" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownHabitCard">
+                                        <li>
+                                            <a class="dropdown-item" data-ajax="true" data-ajax-method="POST" data-ajax-success="RemoveRow" href="/Habits/AJAXDelete/@(item.Id)">Delete</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="small text-center text-gray">(@(item.CompDayCount)/@(item.AimedDayCount))</div>
-                    <!-- END -->
-                    <!-- Info -->
-                    <div class="row text-center mt-4">
-                        <div class="col-6 border-right">
-                            <div class="h4 font-weight-bold mb-0">@(item.GetMissPercentage())%</div><span class="small text-gray">Miss Rate</span>
+
+                        <div class="text-center mt-1 mb-3">
+                            @foreach (char status in item.History)
+                            {
+                                if (status == '2') // done
+                                {
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="text-success bi bi-calendar-check-fill" viewBox="0 0 16 16">
+                                        <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-5.146-5.146-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708z" />
+                                    </svg> }
+                                else if (status == '1') // missed
+                                {
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="text-danger bi bi-calendar-x-fill" viewBox="0 0 16 16">
+                                        <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zM6.854 8.146 8 9.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 10l1.147 1.146a.5.5 0 0 1-.708.708L8 10.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 10 6.146 8.854a.5.5 0 1 1 .708-.708z" />
+                                    </svg> }
+                                else
+                                {
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="text-gray bi bi-calendar-fill" viewBox="0 0 16 16">
+                                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V5h16V4H0V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5z" />
+                                    </svg>}
+                            }
+                            @if (!item.History.Any())
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="text-white bi bi-calendar-fill" viewBox="0 0 16 16">
+                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V5h16V4H0V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5z" />
+                                </svg>
+                            }
                         </div>
-                        <div class="col-6">
-                            <div class="h4 font-weight-bold mb-0">@(item.MissedDayCount)</div><span class="small text-gray">Misses</span>
+
+                        <!-- Progress bar -->
+                        <div class="progress mx-auto" data-value='@(Html.AttributeEncode(item.GetPercentage()))'>
+                            <span class="progress-left">
+                                <span class="progress-bar border-primary"></span>
+                            </span>
+                            <span class="progress-right">
+                                <span class="progress-bar border-primary"></span>
+                            </span>
+                            <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                                <div class="h2 font-weight-bold">@(Html.AttributeEncode(item.GetPercentage()))<sup class="small">%</sup></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="mt-2 border-bottom"></div>
+                        <div class="small text-center text-gray">(@(item.CompDayCount)/@(item.AimedDayCount))</div>
+                        <!-- END -->
+                        <!-- Info -->
+                        <div class="row text-center mt-4">
+                            <div class="col-6 border-right">
+                                <div class="h4 font-weight-bold mb-0">@(item.GetMissPercentage())%</div><span class="small text-gray">Miss Rate</span>
+                            </div>
+                            <div class="col-6">
+                                <div class="h4 font-weight-bold mb-0">@(item.MissedDayCount)</div><span class="small text-gray">Misses</span>
+                            </div>
+                        </div>
+                        <div class="mt-2 border-bottom"></div>
 
-                    <input checked=@item.IsDone class="ActiveCheck2 form-check-input me-3" id=@item.Id name="item.IsDone" type="checkbox" value="true">
+                        <!-- END -->
+                        <div class="card-footer">
+                            <row class="d-flex justify-content-center">
+                                <div class="d-flex align-self-center mb-1">
+                                    @if (item.RecId < 0)
+                                    {
+                                        @Html.ActionLink("Recommend", "Recommend", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-secondary" })
+                                    }
+                                    else
+                                    {
+                                        int avgMissPercentage = item.GetAvgMissPercentage();
+                                        int comparison = avgMissPercentage - item.GetMissPercentage();
+                                        <p class="small text-muted text-center my-auto me-2">Recommended -</p>
+                                        if (comparison > 0)
+                                        {
+                                            <div class="pt-1 my-auto" title="Average Miss Percentage: @(avgMissPercentage)% - You are @(comparison)% ahead!" data-bs-toggle="tooltip" data-bs-placement="right">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-arrow-up-right-square-fill" viewBox="0 0 16 16">
+                                                    <path d="M14 0a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12zM5.904 10.803 10 6.707v2.768a.5.5 0 0 0 1 0V5.5a.5.5 0 0 0-.5-.5H6.525a.5.5 0 1 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 .707.707z" />
+                                                </svg>
+                                            </div>
+                                        }
+                                        else if (comparison < 0)
+                                        {
+                                            <div class="pt-1 my-auto" title="Average Miss Percentage: @(avgMissPercentage)% - You are @Math.Abs(comparison)% behind." data-bs-toggle="tooltip" data-bs-placement="right">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-arrow-down-right-square-fill" viewBox="0 0 16 16">
+                                                    <path d="M14 16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12zM5.904 5.197 10 9.293V6.525a.5.5 0 0 1 1 0V10.5a.5.5 0 0 1-.5.5H6.525a.5.5 0 0 1 0-1h2.768L5.197 5.904a.5.5 0 0 1 .707-.707z" />
+                                                </svg>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="pt-1 my-auto" title="Average Miss Percentage: @(avgMissPercentage)% - You are going on average." data-bs-toggle="tooltip" data-bs-placement="right">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="yellow" class="bi bi-arrow-right-square-fill" viewBox="0 0 16 16">
+                                                    <path d="M0 14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12zm4.5-6.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5a.5.5 0 0 1 0-1z" />
+                                                </svg>
+                                            </div>
+                                        }
 
-                    <!-- END -->
-                    <div>
-                        @foreach (char status in item.History)
-                        {
-                            if (status == '2') // done
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-calendar-check" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" /></svg>
-                            }
-                            else if (status == '1') // missed
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-calendar-x" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" /></svg>
-                            }
-                            else
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" /></svg>
-                            }
-                        }
-                    </div>
-
-
-                    <div class="card-footer">
-                        @if (item.RecId < 0)
-                        {
-                            @Html.ActionLink("Recommend", "Recommend", new { id = item.Id }, new { @class = "btn" })
-                        }
-                        else
-                        {
-                            int avgMissPercentage = item.GetAvgMissPercentage();
-                            int comparison = avgMissPercentage - item.GetMissPercentage();
-                            <p>Recommended - Average Miss Percentage: @(avgMissPercentage)%</p>
-                            if (comparison > 0)
-                            {
-                                <p>You are @(comparison)% ahead!</p>
-                            }
-                            else if (comparison < 0)
-                            {
-                                <p>You are @Math.Abs(comparison)% behind.</p>
-                            }
-                            else
-                            {
-                                <p>You are going on average.</p>
-                            }
-
-                        }
-
-                        @Ajax.ActionLink("-", "AJAXDelete", new { id = item.Id },
-    new AjaxOptions
-    {
-        HttpMethod = "POST",
-        OnSuccess = "RemoveRow"
-    },
-    new { @class = "btn btn-default" })
+                                    }
+                                </div>
+                            </row>
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
-</div>
+}
+else // habits list is empty
+{
+    <div class="my-3 p-3 bg-body rounded shadow-sm text-muted bg-transparent">
+        You currently have no habits.
+    </div>
+}
 
 <script src="~/Custom_Scripts/AddCheckBoxListener2.js"></script>
 <script src="~/Custom_Scripts/CircularProgressBar.js"></script>
@@ -108,6 +165,7 @@
         $tr.remove();
     }
 </script>
+<script src="~/Scripts/sidebars.js"></script>
 
 @section scripts{
     @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")

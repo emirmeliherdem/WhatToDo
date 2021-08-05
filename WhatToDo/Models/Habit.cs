@@ -45,12 +45,7 @@ namespace WhatToDo.Models
         // Returns the miss percentage of the habit in relation to completed days
         public int GetMissPercentage()
         {
-            if (MissedDayCount <= 0 && CompDayCount <= 0)
-                return 0;
-            else if (CompDayCount <= 0)
-                return MissedDayCount * 100;
-
-            return (int) Math.Round(100f * ((float) MissedDayCount / (float) CompDayCount));
+            return Percentage(MissedDayCount, CompDayCount);
         }
 
         // Returns the average miss percentage of the habit compared to other users following the same habit
@@ -83,6 +78,22 @@ namespace WhatToDo.Models
             History += 1; // add 'miss' (1) to habit history
             if (History.Length > HISTORY_SIZE)
                 History = History.Substring(1);
+        }
+
+        // Returns true if the habit is one miss away from being deleted (miss percentage >= 100)
+        public bool InDanger()
+        {
+            return Percentage(MissedDayCount + 1, CompDayCount) >= 100;
+        }
+
+        private int Percentage(int n1, int n2)
+        {
+            if (n1 <= 0 && n2 <= 0)
+                return 0;
+            else if (n2 <= 0)
+                return n1 * 100;
+
+            return (int)Math.Round(100f * ((float)n1 / (float)n2));
         }
     }
 }

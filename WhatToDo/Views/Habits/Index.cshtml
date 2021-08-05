@@ -6,9 +6,16 @@
 
 <link href="~/Content/bootstrap.min.css" rel="stylesheet">
 
-<div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
-    <div class="lh-1">
-        <h4 class="h6 mb-0 text-white lh-1">My Habit List</h4>
+<div class="d-flex align-items-center p-3 my-3 bg-body rounded shadow-sm lh-1">
+    <h4 class="mb-0">My Habit List</h4>
+
+    <div class="dropdown me-3 ms-lg-auto">
+        <button class="btn btn-lg dropdown-toggle p-0" type="button" id="dropdownHabits" data-bs-toggle="dropdown" aria-expanded="false"></button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownHabits">
+            <li>
+                <a class="dropdown-item" href="/Habits/ClearAll">Clear All</a>
+            </li>
+        </ul>
     </div>
 </div>
 
@@ -44,16 +51,7 @@
     }
 </div>
 
-<small class="d-block text-end mt-3 border-top">
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            @Html.ActionLink("Clear All", "ClearAll")
-        </div>
-    }
-</small>
+<hr />
 
 <div>
     @if (TempData["ErrorMessage"] != null)
@@ -68,6 +66,7 @@
 </div>
 
 @section Scripts {
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/Custom_Scripts/BuildHabitTable.js"></script>
     <script src="~/Custom_Scripts/BuildRecHabitTable.js"></script>
